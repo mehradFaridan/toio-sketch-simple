@@ -60,7 +60,7 @@ io.on('connection', async (socket) => {
     // console.log("y = ", y)
 
     if (cube_global){
-      cube_global.move(...move(x, y, cube_x, cube_y, cube_angle), 10)
+      cube_global.move(...move(x, y, cube_x, cube_y, cube_angle), 100)
       //console.log(move(20, 20, cube_global))
     }
 
@@ -94,7 +94,7 @@ function move(targetX, targetY, cX, cY, cA) {
   // console.log("diffY = ", diffY)
   // console.log("distance = ", distance)
   
-  if (distance < 50) {
+  if (distance < 5) {
     return [0, 0]
   }
 
