@@ -28,19 +28,14 @@ let cube_angle;
 
 io.on('connection', async (socket) => {
 
-  await new NearestScanner().start().then((cube)=>{
+  await new NearestScanner().start().then((cube) => {
     // console.log(cube);
     cube.connect()
     cube.on('id:position-id', (data) => {
-      
-      //console.log(data)
 
       cube_x = data.x
       cube_y = data.y
       cube_angle = data.angle
-
-      // console.log("cube_x = ", cube_x)
-      // console.log("cube_y = ", cube_y)
 
       socket.emit('pos', { cubes: [data] })
     
@@ -56,20 +51,13 @@ io.on('connection', async (socket) => {
   // server that the toio must move to
   socket.on('move', (x, y) => {
 
-    // console.log("x = ", x)
-    // console.log("y = ", y)
-
     if (cube_global){
+      
       cube_global.move(...move(x, y, cube_x, cube_y, cube_angle), 100)
-      //console.log(move(20, 20, cube_global))
+    
     }
 
-    //console.log(move(x, y, cube))
-
   })
-
-  // main(socket)
-
 
 })
 

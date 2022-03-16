@@ -45,10 +45,11 @@
     
       layer.add(line)
 
+      // If page has been clicked, set
+      // click variable into true
       function changeBehavior(){
         clicked = true
-
-    }
+      }
 
       socket.on('pos', (data) => {
         // console.log(data)
@@ -87,12 +88,9 @@
           // increment by -2 since we're going down the array
           else if(index > line.points().length){
 
-            //goingUp = false
-            //index = line.points().length
-            //increment = -2
-            index = 0
-            increment = 2
-            goingUp = true
+            goingUp = false
+            index = line.points().length
+            increment = -2
 
           }
 
@@ -102,6 +100,7 @@
           let targetX = line.points()[index]
           let targetY = line.points()[index + 1]
 
+          // Printing info
           console.log("i = ", index)
           console.log("x = ", targetX)
           console.log("y = ", targetY)
@@ -110,83 +109,6 @@
           socket.emit('move', targetX, targetY)
 
           index += increment
-
-
-
-          // for(i = 0; i < line.points().length; i+=4){
-
-          //   console.log(i)
-
-          //   // Since the line.points array is a flattened array,
-          //   // every even index is an x value and every odd 
-          //   // index is a y value 
-          //   let targetX = line.points()[i]
-          //   let targetY = line.points()[i + 1]
-
-          //   // console.log("i = ", i)
-          //   // console.log("x = ", x)
-          //   // console.log("y = ", y)
-              
-          //   // Emitting move positions back to the server
-          //   socket.emit('move', targetX, targetY)
-
-          // }
-
-          // for(i = line.points().length; i > 0; i-=4){
-
-          //   //console.log(i)
-
-          //   // Since the line.points array is a flattened array,
-          //   // every even index is an x value and every odd 
-          //   // index is a y value 
-          //   let targetX = line.points()[i]
-          //   let targetY = line.points()[i + 1]
-
-          //   // console.log("i = ", i)
-          //   // console.log("x = ", x)
-          //   // console.log("y = ", y)
-
-          //   // Emitting move positions back to the server
-          //   socket.emit('move', targetX, targetY)
-
-          // }
-
-          // // Declaring increment value for array index
-          // let increment
-          
-          // // If index is greater than length of array
-          // // then it's time to head down the array
-          // if(i > line.points().length){
-
-          //   goingUp = false
-
-          // }
-
-          // // If index is smaller than 0, then it's
-          // // time to head back up the array
-          // if(i < 0){
-
-          //   goingUp = true
-
-          // }
-
-
-          // // If going up through array, then increment by 20
-          // if(goingUp){
-            
-          //   increment = 2
-
-          // }
-
-          // // If going down through array, then decrement by 20
-          // else{
-
-          //   increment = -2
-
-          // }
-
-          // // Increment i
-          // i += increment
 
         }
 
