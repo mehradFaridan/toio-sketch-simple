@@ -18,6 +18,9 @@
       // Heading down array at first
       let increment = -2
 
+      // Counter for points in each line
+      let counter = 1
+
       const socket = io()
 
       let width = window.innerWidth
@@ -36,6 +39,7 @@
       let mode = 'brush'
       let lastLine
 
+      // Creating line 1
       line = new Konva.Line({
         stroke: '#df4b26',
         strokeWidth: 5,
@@ -43,28 +47,65 @@
         points: [],
       })
     
+      // Creating line 2
+      line2 = new Konva.Line({
+        stroke: '#df4b26',
+        strokeWidth: 5,
+        lineCap: 'round',
+        points: [],
+      })
+
+      // Adding lines to layer
       layer.add(line)
+      layer.add(line2)
 
       // If page has been clicked, set
-      // click variable into true
+      // click variable to true
       function changeBehavior(){
-        clicked = true
+        //clicked = true
       }
 
-      socket.on('pos', (data) => {
-        // console.log(data)
-        let cubes = data.cubes
-        let cube = cubes[0]
-        let x = cube.x
-        let y = cube.y
+      socket.on('pos', (arg1, arg2) => {
+
+        let x = arg1
+        let y = arg2
+
+        // console.log("x: ", x)
+        // console.log("y: ", y)
+        
+      // socket.on('pos', (data) => {
+      //   // console.log(data)
+      //   let cubes = data.cubes
+      //   let cube = cubes[0]
+      //   let x = cube.x
+      //   let y = cube.y
 
         // If click hasn't occured yet, then continue
         // drawing toio co-ordinates on page
         if(clicked === false){
+        
+          // Add first two point to line 1
+          if(counter <= 2){
 
-          let newPoints = line.points().concat([x, y])
-          line.points(newPoints)
-          index = line.points().length
+            let newPoints = line.points().concat([x, y])
+            line.points(newPoints)
+
+            counter++
+
+          }
+
+          // Add second set of points to line 2
+          else if((counter <= 4) && (counter > 2)){
+
+            let newPoints = line2.points().concat([x, y])
+            line2.points(newPoints)
+
+            counter++
+
+          }
+          
+          
+          //index = line.points().length
 
         } 
         
@@ -106,7 +147,7 @@
           console.log("y = ", targetY)
 
           // Emitting move positions back to the server
-          socket.emit('move', targetX, targetY)
+          //socket.emit('move', targetX, targetY)
 
           index += increment
 
